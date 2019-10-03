@@ -3,7 +3,6 @@ import sys
 import datetime
 import pandas as pd
 import numpy as np
-import openpyxl as xl
 
 loopty = True
 def prog() :
@@ -15,7 +14,7 @@ def prog() :
   csvItself = open('everyone-master.csv', "r")
   parsedcsv = csv.reader(csvItself)
   
-# this'll be the csv writer's vars
+# this'll be the csv writer's vars but these don't work for some reason?
   #newCSV = open("C:\Users\zstrickland.RANDSMACHINE\Documents\ClockInCardProject\ClockInPython\eweveryone.csv")
   #writer = csv.writer(newCSV)
 
@@ -23,17 +22,19 @@ def prog() :
   rightNow = datetime.datetime.now()
   thisInstant = rightNow.strftime("%Y-%m-%d %H:%M:%S")
 
-# This one displays the username and date/time of clockin
-# loop through csv list
+# This one displays the username and date/time of clockin:
+# Here's where we loop through csv list
   for row in parsedcsv:
     # if current row's 1st value is equal to input, print that row
       if cardNumber == row[0]:
           print(row[1])
+      # and the time
           print(thisInstant)
       
 
 
-# here's how to find the row of the given card number
+# here's how to find the number of the row of the given card number, 
+# userRowNumber will be plugged into whatever I can find to write the doc
   def row_number(input):
       o = open('everyone-master.csv', 'r') 
       myData = csv.reader(o)
@@ -45,5 +46,6 @@ def prog() :
        else : index += 1
   userRowNumber = row_number(cardNumber)
   print(userRowNumber)
+
 while loopty :
   prog()
