@@ -1,7 +1,14 @@
 # PymeClock
-This is a timeclock designed by me for use at R&amp;S Machining
+This is a timeclock designed and writted by Zac Strickland for use at R&S Machining
 
 
-To whomever is currently looking at this, I appreciate you.
+To everyone from Reddit that gave me a hand with my first big project, I appreciate you.
 
-So I need this thing to take the card number, run it against the included csv, spit out the name of the person and the current time, write the current time to the next available cell in the row next to the name, calculate total hours worked this week and total hours worked today and also display that, and they'll eventually want to be able to see everyone that's currently clocked in as well. 
+So this thing will build a SQLite database, take the card number, run it against a database of card numbers and employees, spit out the name of the person and the current time, write the name and the current time and date to the next available row in a seperate table in the database, and has the ability to add and remove people from the Employee table.
+
+Things I'm currently working on:
+
+Admin-side frontend for things like:
+  Seeing at a glance what the total weekly hours are for each individual
+  Hex-based login for making edits to the Times table itself
+  
