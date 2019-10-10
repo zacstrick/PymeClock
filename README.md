@@ -9,7 +9,7 @@ So this thing will build a SQLite database, take the card number, run it against
 Things I'm currently working on:
 
 Admin-side frontend for things like:
-  Seeing at a glance what the total weekly hours are for each individual
+  Seeing at a glance what the total weekly hours are for each individual and a 
   Hex-based login for making edits to the Times table itself
   
 Ticking Clock widget to be displayed in the corner of the GUI
