@@ -6,7 +6,7 @@ import TimeclockBE as be
 
 # here we go with the window
 layout = [[sg.Text('Swipe Your Card')],
-          [sg.InputText(size=(6,1), key='IN', focus=True)],
+          [sg.InputText(size=(6,1), key='IN', focus=True)], [sg.Text('', key='clock', size=(8,1), font=('arial', 20, 'bold'))],
           [sg.Text('', key='theName', size=(45,1))],
           [sg.Text('', key='theTime', size=(45,1))],
           [sg.Text('', key='totalTimeOut', size=(23,1))],
@@ -16,26 +16,28 @@ layout = [[sg.Text('Swipe Your Card')],
 window = sg.Window('Clock!', layout)
 
 
-# and here are the time vars
-rightNow = datetime.datetime.now()
-theTime = rightNow.strftime("%H:%M:%S")
-theDate = rightNow.strftime("%Y-%m-%d")
-
-# def tick():
-#     global time = time1
-#     time2 = time.strftime('%H:%M:%S')
-#     if time2 != time1:
-#         time1 = time2
-#         window['clock'].Update(time2)
-#     time.sleep(0.2)
+def clearfields():
+    window['theName'].Update('')
+    window['theTime'].Update('')
 
 
 while True :
-#tick()
+
+    # so here are the time vars
+    rightNow = datetime.datetime.now()
+    theTime = rightNow.strftime("%H:%M:%S")
+    theDate = rightNow.strftime("%Y-%m-%d")
+
+    def tick():
+        window['clock'].Update(theTime)
+        time.sleep(0.2)
+
+
     event, value = window.Read()
     cardNumber = value['IN']
     if event is None:
         break 
+
     elif event is 'RETURN':
         nameOfSwiper = be.Swipe(cardNumber)
         be.submitToDB(nameOfSwiper, theDate, theTime)
@@ -57,12 +59,14 @@ while True :
         be.delEmp(leaving)
     
     elif event is 'totalButton':
-        totalqueery = sg.popup_get_text('who we lookin for')
-        whatisit = be.onTheDay(totalqueery, theDate)
+        Empquery = sg.popup_get_text('who we lookin for')
+        whatisit = be.onTheDay(Empquery, theDate)
         print(whatisit)
 
     else:
         sg.popup_error(title='I AM CONFUSED')
+    
+    tick()
 
 
         
