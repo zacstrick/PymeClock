@@ -13,10 +13,10 @@ def Swipe(EmpID):
     con = sqlite3.connect('Timeclock.db')
     cur = con.cursor()
     cur.execute("SELECT EmpName FROM Emps WHERE EmpID=?", (EmpID,))
-    returnedValue = cur.fetchall()
+    listOfTimesToday = cur.fetchall()
     con.commit()
     con.close()
-    delisted = ''.join(map(str, returnedValue))
+    delisted = ''.join(map(str, listOfTimesToday))
     stripped = str(delisted).strip('()')
     strippedAgain = str(stripped).strip(',')
     swiperName = str(strippedAgain).strip("''")
@@ -51,9 +51,10 @@ def onTheDay(EmpName, theDate):
     con=sqlite3.connect('Timeclock.db')
     cur = con.cursor()
     cur.execute("SELECT theTime FROM Swipes WHERE EmpName=? AND theDate=?", (EmpName, theDate))
-    timeses = cur.fetchall()
+    listOfTimesToday = cur.fetchall()
     con.close()
-    return timeses
+    OTDList = makeReadable(listOfTimesToday)
+    return listOfTimesToday[8]
 
     
 def delEmp(EmpID):
@@ -62,6 +63,14 @@ def delEmp(EmpID):
     cur.execute("DELETE FROM Emps WHERE EmpID=?", (EmpID,))
     con.commit()
     con.close()
+
+def makeReadable(inputs):
+    delisted = ''.join(map(str, inputs))
+    strip1 = str(delisted).strip(',')
+    strip2 = str(strip1).strip(")")
+    strip3 = str(strip2).strip('(')
+    #split1 = str(strip2).split(')(')
+    return strip3
 
 
 EmployeeData()
