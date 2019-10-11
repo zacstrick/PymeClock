@@ -28,24 +28,19 @@ while True :
     theTime = rightNow.strftime("%H:%M:%S")
     theDate = rightNow.strftime("%Y-%m-%d")
 
-    def tick():
-        window['clock'].Update(theTime)
-        time.sleep(0.2)
+    event, value = window.Read(timeout=100)
 
-
-    event, value = window.Read()
-    cardNumber = value['IN']
-    if event is None:
+    if event == None:
         break 
-
-    elif event is 'RETURN':
+    cardNumber = value['IN']
+    if event == 'RETURN':
         nameOfSwiper = be.Swipe(cardNumber)
         be.submitToDB(nameOfSwiper, theDate, theTime)
         window['theName'].Update(nameOfSwiper)
         window['theTime'].Update(theTime)
         window['IN'].Update('')
 
-    elif event is 'ADD':
+    elif event == 'ADD':
         NewName = sg.popup_get_text('Enter New Employee Name:')
         NewCard = sg.popup_get_text('Now swipe that card of yours:')
         
@@ -53,21 +48,16 @@ while True :
         confirmed = be.confEmp(NewCard, NewName)
         print(confirmed,' has been added')
     
-    elif event is 'REM':
+    elif event == 'REM':
         leaving = sg.popup_get_text('Swipe that card one last time please.')
         
         be.delEmp(leaving)
     
-    elif event is 'totalButton':
+    elif event == 'totalButton':
         Empquery = sg.popup_get_text('who we lookin for')
         whatisit = be.onTheDay(Empquery, theDate)
         print(whatisit)
 
-    else:
-        sg.popup_error(title='I AM CONFUSED')
-    
-    tick()
-
-
+    window['clock'].Update(theTime)
         
 window.Close() 
