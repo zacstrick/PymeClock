@@ -1,5 +1,7 @@
 #BackEnd
 import sqlite3
+from datetime import datetime as dt
+from datetime import date as d
 
 def EmployeeData():
     con = sqlite3.connect('Timeclock.db')
@@ -13,14 +15,11 @@ def Swipe(EmpID):
     con = sqlite3.connect('Timeclock.db')
     cur = con.cursor()
     cur.execute("SELECT EmpName FROM Emps WHERE EmpID=?", (EmpID,))
-    listOfTimesToday = cur.fetchall()
+    tupes = cur.fetchall()
     con.commit()
     con.close()
-    delisted = ''.join(map(str, listOfTimesToday))
-    stripped = str(delisted).strip('()')
-    strippedAgain = str(stripped).strip(',')
-    swiperName = str(strippedAgain).strip("''")
-    return swiperName
+    detupled = [x[0] for x in tupes]
+    return detupled[0]
 
 def submitToDB(EmpName, theDate, theTime):
     con = sqlite3.connect('Timeclock.db')
@@ -51,10 +50,14 @@ def onTheDay(EmpName, theDate):
     con=sqlite3.connect('Timeclock.db')
     cur = con.cursor()
     cur.execute("SELECT theTime FROM Swipes WHERE EmpName=? AND theDate=?", (EmpName, theDate))
-    listOfTimesToday = cur.fetchall()
+    tupes = cur.fetchall()
     con.close()
-    OTDList = makeReadable(listOfTimesToday)
-    return listOfTimesToday[8]
+    detuped = [x[0] for x in tupes]
+    FMT = '%H:%M:%S'
+    day = (dt.strptime(detuped[3], FMT) - dt.strptime(detuped[0], FMT)) 
+    lunch = (dt.strptime(detuped[2], FMT) - dt.strptime(detuped[1], FMT))
+    workday = day - lunch
+    return workday
 
     
 def delEmp(EmpID):
@@ -64,13 +67,6 @@ def delEmp(EmpID):
     con.commit()
     con.close()
 
-def makeReadable(inputs):
-    delisted = ''.join(map(str, inputs))
-    strip1 = str(delisted).strip(',')
-    strip2 = str(strip1).strip(")")
-    strip3 = str(strip2).strip('(')
-    #split1 = str(strip2).split(')(')
-    return strip3
 
 
 EmployeeData()
