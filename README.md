@@ -6,9 +6,3 @@ To everyone from Reddit that gave me a hand with my first big project, I appreci
 
 So this thing will build a SQLite database, take the card number, run it against the table of card numbers to employees, spit out the name of the person and the current time, write the name and the current time and date to the next available row in a seperate table in the database, and has the ability to add and remove people from the Employee table.
 
-Things I'm currently working on:
-
-Admin-side frontend for things like:
-  hex powered login for making quick edits
- 
-As well as Employee-side things like showing time to the week
